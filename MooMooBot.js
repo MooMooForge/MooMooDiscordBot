@@ -33,11 +33,10 @@ client.on("interactionCreate", async interaction => {
         })
         let hasPermission = permissions.toString() == saveperms.toString()
         if(!hasPermission) {
-            interaction.reply("You dont have permissions to execute this command.")
-            return
+            interaction.reply("You dont have permissions to execute this command.");
+            return;
         }
     }
-
     if (command.cooldown) {
         const timeSinceLastUse = Date.now() - (command.lastUse || 0);
         if (timeSinceLastUse < command.cooldown) {
@@ -50,6 +49,7 @@ client.on("interactionCreate", async interaction => {
     command.lastUse = Date.now();
     try {
         await command.execute(interaction, interaction.args);
+        console.log(interaction.options.data)
     } catch (error) {
         console.error(error);
         await interaction.reply("An error occurred while executing the command.");
