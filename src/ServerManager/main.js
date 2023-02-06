@@ -5,7 +5,7 @@ class ServerManager {
     }
 
     initialize() {
-
+        
     }
 
     async fetchServerData() {

@@ -48,8 +48,7 @@ client.on("interactionCreate", async interaction => {
 
     command.lastUse = Date.now();
     try {
-        await command.execute(interaction, interaction.args);
-        console.log(interaction.options.data)
+        await command.execute(interaction, interaction.options.data);
     } catch (error) {
         console.error(error);
         await interaction.reply("An error occurred while executing the command.");
