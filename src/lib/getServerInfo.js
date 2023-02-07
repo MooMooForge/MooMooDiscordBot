@@ -1,4 +1,16 @@
+const axios = require("axios")
+
+
+/**
+ * 
+ * @param {String} type 
+ * @param {Number} region 
+ * @param {Number} index 
+ * @returns {Promise}
+ */
 async function getServerInfo(type, region, index) {
+    console.log(type, region, index)
+    console.log(`https://${type}moomoo.io/serverData`)
     return new Promise((resolve, reject) => {
         axios.get(`https://${type}moomoo.io/serverData`).then(res => {
             let data = res.data;
