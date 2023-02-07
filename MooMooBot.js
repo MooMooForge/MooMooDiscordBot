@@ -19,7 +19,6 @@ require('./src/restApiCall')(process.env.BOT_TOKEN, commands)
 
 client.on("interactionCreate", async interaction => {
     if (!interaction.isChatInputCommand()) return;
-
     const command = commands.find(c => c.name === interaction.commandName || c.aliases.includes(interaction.commandName));
     if (!command) return;
 
