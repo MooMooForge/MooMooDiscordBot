@@ -8,7 +8,7 @@ class ServerInfoCommand extends Command {
         this.name = "serverinfo";
         this.cooldown = 5000;
         this.userPermissions = ["SendMessages"];
-        this.description = "This is an example command";
+        this.description = "Requests information from a server";
         this.options = [
             {
                 name: "region",
