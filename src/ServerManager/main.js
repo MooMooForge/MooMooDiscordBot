@@ -7,7 +7,7 @@ class ServerManager {
     }
 
     initialize() {
-
+        // ...
     }
 
     static async fetchServerData(type) {
