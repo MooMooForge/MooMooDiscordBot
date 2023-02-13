@@ -55,7 +55,7 @@ client.on("interactionCreate", async interaction => {
 });
 
 client.on("ready", function() {
-    console.log("ready")
+    console.log("ready as " + client.user.tag)
 })
 
 client.login(process.env.BOT_TOKEN);

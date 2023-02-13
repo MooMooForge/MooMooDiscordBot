@@ -34,4 +34,4 @@ class RegionInfoCommand extends Command {
     }
 }
 
-module.exports = ExampleCommand;
+module.exports = RegionInfoCommand;
