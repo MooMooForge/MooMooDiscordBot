@@ -10,20 +10,24 @@ class RegionInfoCommand extends Command {
         this.description = "Requests information from MooMoo.io";
         this.options = [
             {
-                "name": "example",
-                "description": "ExampleDescription",
-                "type": 3,
-                "required": true,
-                "choices": [
-                    {
-                        "name": "optionone",
-                        "value": "optionvalue"
-                    },
-                    {
-                        "name": "optiontwo",
-                        "value": "optionvaluetwo"
-                    }
-                ]
+                name: "type",
+                description: "Please put in the server type for the command.",
+                type: 3,
+                choices: servers.serverTypes,
+                required: false
+            },
+            {
+                name: "region",
+                description: "Put in the region of the server you want to request information for.",
+                type: 3,
+                required: false,
+                choices: servers.extractRegionsToChoices()
+            },
+            {
+                name: "index",
+                description: "Put in the index of the server you want to request information for.",
+                type: 4,
+                required: false
             }
         ]
     }
