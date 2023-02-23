@@ -4,26 +4,27 @@ class ExampleCommand extends Command {
     constructor(client) {
         super(client);
         this.name = "example";
-        this.aliases = ["ex"];
         this.cooldown = 5000;
         this.userPermissions = ["SendMessages"];
         this.description = "This is an example command";
         this.options = [
             {
-                "name": "example",
-                "description": "ExampleDescription",
-                "type": 3,
-                "required": true,
-                "choices": [
-                    {
-                        "name": "optionone",
-                        "value": "optionvalue"
-                    },
-                    {
-                        "name": "optiontwo",
-                        "value": "optionvaluetwo"
-                    }
-                ]
+                name: "first option",
+                description: "first argument",
+                type: 3,
+                choices: [{
+                    // ...
+                }],
+                required: false
+            },
+            {
+                name: "second option",
+                description: "second argument",
+                type: 3,
+                choices: [{
+                    // ...
+                }],
+                required: false
             }
         ]
     }
