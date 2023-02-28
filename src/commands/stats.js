@@ -1,6 +1,8 @@
 const Command = require("../Command");
 const servers = require("../lib/data/servers");
 
+const serverstats = require("moomoo-stats")
+
 class RegionInfoCommand extends Command {
     constructor(client) {
         super(client);
@@ -33,8 +35,31 @@ class RegionInfoCommand extends Command {
     }
 
     async execute(interaction, args) {
-        console.log(args)
-        await interaction.reply("This is an example command.");
+        await interaction.deferReply();
+
+        let type;
+        let region;
+        let index;
+
+        for (let i = 0; i < args.length; i++) {
+            let command = args[i];
+
+            switch (command.name) {
+                case "type":
+                    type = command.value;
+                    break;
+                case "region":
+                    region = command.value
+                    break;
+                case "index":
+                    index = command.value;
+                    break
+            }
+        }
+        let stats = await serverstats(type, region, index);
+
+        console.log(stats)
+        await interaction.editReply("This is an example command.");
     }
 }
 

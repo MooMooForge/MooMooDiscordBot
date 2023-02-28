@@ -5,6 +5,7 @@
     "dotenv": "^16.0.3",
     "fs": "^0.0.1-security",
     "moomoo-recaptcha-token-generator": "^1.0.3",
+    "moomoo-stats": "^1.0.1",
     "msgpack-lite": "^0.1.26",
     "ws": "^8.12.0"
   }
