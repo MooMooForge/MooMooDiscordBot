@@ -7,6 +7,7 @@ class ExampleCommand extends Command {
         this.cooldown = 5000;
         this.userPermissions = ["SendMessages"];
         this.description = "This is an example command";
+        this.example = true;
         // this.options = [
         //     {
         //         name: "first option",

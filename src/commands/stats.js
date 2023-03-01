@@ -64,8 +64,6 @@ class RegionInfoCommand extends Command {
         }
         let stats = await serverstats(type, region, index);
 
-
-        console.log(type, region, index)
         if (!type && !region && !index) {
             let allServers = stats.normal.concat(stats.sandbox).concat(stats.dev)
 
