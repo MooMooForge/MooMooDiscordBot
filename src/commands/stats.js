@@ -109,7 +109,7 @@ class RegionInfoCommand extends Command {
             await interaction.editReply({
                 embeds: [{
                     title: "Total Server Stats",
-                    description: "Information about all MooMoo.io servers",
+                    description: "[Need help, found a bug or want more features? Click here.](https://discord.gg/NMS3YR9Q5R)",
                     fields: [
                         {
                             name: "Overall MooMoo Stats",
@@ -138,13 +138,13 @@ class RegionInfoCommand extends Command {
             await interaction.editReply({
                 embeds: [{
                     title: `${type} statistics`,
-                    description: `gives information about ${type} servers.`,
+                    description: "[Need help, found a bug or want more features? Click here.](https://discord.gg/NMS3YR9Q5R)",
                     fields: [
                         {
                             name: "Total Players",
                             value: `${playerCount} Players`,
                             inline: true
-                        }, 
+                        },
                         {
                             name: "Total Servers",
                             value: `${stats.length} Servers`,
@@ -159,14 +159,76 @@ class RegionInfoCommand extends Command {
                 }]
             })
         } else if (type && region && !index) {
-            // region stats
+            let stats = await serverstats(type, region)
+            let playerCount = 0;
+
+            stats.forEach(server => {
+                let games = server.games[0]
+
+                playerCount += games.playerCount
+            })
+
+            let formattedServers = stats
+                .map(server => {
+                    let playerCount = server.games[0].playerCount;
+                    return `${server.region.split("vultr:")[1]}:${server.index}:0 - ${playerCount}/50 players`;
+                })
+                .sort((a, b) => {
+                    let playerCountA = parseInt(a.split(" - ")[1]);
+                    let playerCountB = parseInt(b.split(" - ")[1]);
+                    return playerCountB - playerCountA;
+                })
+                .join("\n");
+
+            console.log(formattedServers);
+
+            await interaction.editReply({
+                embeds: [{
+                    title: `Server stats for region \`${region}\` (${type})`,
+                    description: "[Need help, found a bug or want more features? Click here.](https://discord.gg/NMS3YR9Q5R)",
+                    fields: [
+                        {
+                            name: "Total Players",
+                            value: `${playerCount} Players`,
+                            inline: true
+                        },
+                        {
+                            name: "Total Servers",
+                            value: `${stats.length} Servers`,
+                            inline: true
+                        },
+                        {
+                            name: "Average Players per server",
+                            value: `${Math.round(playerCount / stats.length)} Players`,
+                            inline: true
+                        },
+                        {
+                            name: "Server stats",
+                            value: formattedServers
+                        }
+                    ]
+                }]
+            })
         } else if (type && region && index) {
-            // server stats
+            let server = await serverstats(type, region, index);
+
+            let embed = {
+                title: `Server Statistics (${type} - ${server.region.split("vultr:")[1]}:${server.index}:0)`,
+                description: "[Need help, found a bug or want more features? Click here.](https://discord.gg/NMS3YR9Q5R)",
+                fields: [
+                    { name: 'Player Count', value: `${server.games[0].playerCount} / 50`, inline: true },
+                    { name: 'Server Scheme', value: server.scheme, inline: true }
+                ],
+            };
+
+            await interaction.editReply({
+                embeds: [embed]
+            })
         } else {
             await interaction.editReply({
                 embeds: [{
-                    title: "Error",
-                    description: "Make sure you used the command correctly."
+                    title: "Error: Make sure you enter the command correctly.",
+                    description: "[Need help, found a bug or want more features? Click here.](https://discord.gg/NMS3YR9Q5R)"
                 }]
             })
         }
