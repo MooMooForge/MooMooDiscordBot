@@ -10,10 +10,18 @@ const commandFiles = fs.readdirSync("./src/commands").filter(file => file.endsWi
 const commands = [];
 
 for (const file of commandFiles) {
-  const CommandClass = require(`./src/commands/${file}`);
-  const command = new CommandClass(client);
-  commands.push(command);
+    const CommandClass = require(`./src/commands/${file}`);
+    const command = new CommandClass(client);
+    if (!command.example) {
+        commands.push(command);
+    }
 }
+
+const helpCommand = require(`./src/commands/help`);
+const help = new helpCommand(client);
+
+help.loadCommands(commands);
+commands.push(help)
 
 require('./src/restApiCall')(process.env.BOT_TOKEN, commands)
 
@@ -56,7 +64,6 @@ client.on("interactionCreate", async interaction => {
 
 client.on("ready", function() {
     console.log("ready as " + client.user.tag)
-    console.log(client.user.id)
 })
 
 client.login(process.env.BOT_TOKEN);

@@ -1,11 +1,9 @@
 const Command = require("../Command");
 const servers = require("../lib/data/servers");
 
-const { EmbedBuilder } = require('discord.js');
-
 const serverstats = require("moomoo-stats")
 
-class RegionInfoCommand extends Command {
+class StatsCommand extends Command {
     constructor(client) {
         super(client);
         this.name = "stats";
@@ -34,6 +32,40 @@ class RegionInfoCommand extends Command {
                 required: false
             }
         ]
+        this.usage = {
+            "title": `Stats command usage`,
+            "description": `The stats command lets you request data about MooMoo.io servers.`,
+            "fields": [
+                {
+                    "name": `Usage`,
+                    "value": `You can use the slash command called \"stats\" to use the command.`,
+                    "inline": true
+                },
+                {
+                    "name": `Arguments`,
+                    "value": `There are three arguments: \`type, region, index\``,
+                    "inline": true
+                },
+                {
+                    "name": `Providing no arguments`,
+                    "value": `\nWhen you do not provide any argument, then the bot will return overall moomooio stats about all types.\n\nExample usage: \`/stats\``
+                },
+                {
+                    "name": `Providing only a type`,
+                    "value": `When you provide a type only, It will show overall statistics about the specified type. The types are set, so you can freely choose from any option given by the slash command menu.\n\nExample usage: \`/stats type:sandbox\``,
+                },
+                {
+                    "name": `Providing a type and a region`,
+                    "value": `When you provide a type and a region, the bot will return region statistics and a full list with available servers for that region (empty servers are filtered out)\n\nExample usage: \`/stats type:normal region:8\``,
+                },
+                {
+                    "name": `Providing all arguments with index`,
+                    "value": `The index is the number after the region in a server. For example, \`8:5:0\`, 5 would be the indexWhen you provide all arguments, the bot will simply return information about the given server.\n\nExample usage: \`/stats type:sandbox region:Frankfurt index:12\``,
+                }
+            ]
+        }
+
+
     }
     /**
      * 
@@ -228,7 +260,7 @@ class RegionInfoCommand extends Command {
         } else {
             await interaction.editReply({
                 embeds: [{
-                    title: "Error: Make sure you enter the command correctly.",
+                    title: "Error: Make sure you enter the command correctly. If you need help, try `/help`.",
                     description: "[Need help, found a bug or want more features? Click here.](https://discord.gg/NMS3YR9Q5R)"
                 }]
             })
@@ -238,4 +270,4 @@ class RegionInfoCommand extends Command {
     }
 }
 
-module.exports = RegionInfoCommand;
+module.exports = StatsCommand;

@@ -8,26 +8,25 @@ class ExampleCommand extends Command {
         this.userPermissions = ["SendMessages"];
         this.description = "This is an example command";
         this.example = true;
-        // this.options = [
-        //     {
-        //         name: "first option",
-        //         description: "first argument",
-        //         type: 3,
-        //         choices: [{
-        //             // ...
-        //         }],
-        //         required: false
-        //     },
-        //     {
-        //         name: "second option",
-        //         description: "second argument",
-        //         type: 3,
-        //         choices: [{
-        //             // ...
-        //         }],
-        //         required: false
-        //     }
-        // ]
+        // https://discord.com/developers/docs/interactions/application-commands#application-command-object-application-command-option-type
+        this.options = [
+            {
+                "name": "example",
+                "description": "ExampleDescription",
+                "type": 3,
+                "required": true,
+                "choices": [
+                    {
+                        "name": "optionone",
+                        "value": "optionvalue"
+                    },
+                    {
+                        "name": "optiontwo",
+                        "value": "optionvaluetwo"
+                    }
+                ]
+            }
+        ]
     }
 
     async execute(interaction, args) {

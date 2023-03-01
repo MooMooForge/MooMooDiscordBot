@@ -1,12 +1,16 @@
 const Command = require("../Command");
 
-class ExampleCommand extends Command {
+class InviteCommand extends Command {
     constructor(client) {
         super(client);
         this.name = "invite";
         this.cooldown = 0;
         this.userPermissions = ["SendMessages"];
         this.description = "gives you a link to invite the bot into your server";
+        this.usage = {
+            title: "Invite command usage",
+            description: "just write /invite to get the link for the discord bot"
+        }
     }
 
     async execute(interaction, args) {
@@ -20,4 +24,4 @@ class ExampleCommand extends Command {
     }
 }
 
-module.exports = ExampleCommand;
+module.exports = InviteCommand;
