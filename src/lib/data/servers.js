@@ -60,6 +60,6 @@ module.exports.serverTypes = [
     },
     {
         name: "normal",
-        value: ""
+        value: "normal"
     }
 ]

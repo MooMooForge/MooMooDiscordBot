@@ -1,6 +1,8 @@
 const Command = require("../Command");
 const servers = require("../lib/data/servers");
 
+const { EmbedBuilder } = require('discord.js');
+
 const serverstats = require("moomoo-stats")
 
 class RegionInfoCommand extends Command {
@@ -33,7 +35,11 @@ class RegionInfoCommand extends Command {
             }
         ]
     }
-
+    /**
+     * 
+     * @param {import("discord.js").Interaction} interaction 
+     * @param {import("discord.js").Interaction.args} args 
+     */
     async execute(interaction, args) {
         await interaction.deferReply();
 
@@ -58,8 +64,114 @@ class RegionInfoCommand extends Command {
         }
         let stats = await serverstats(type, region, index);
 
-        console.log(stats)
-        await interaction.editReply("This is an example command.");
+
+        console.log(type, region, index)
+        if (!type && !region && !index) {
+            let allServers = stats.normal.concat(stats.sandbox).concat(stats.dev)
+
+            let playerCounts = {
+                all: 0,
+                sandbox: 0,
+                normal: 0,
+                dev: 0
+            }
+
+            allServers.forEach(server => {
+                let games = server.games[0]
+
+                let playerCount = games.playerCount;
+                playerCounts.all += playerCount
+            })
+
+            stats.sandbox.forEach(server => {
+                let games = server.games[0]
+
+                let playerCount = games.playerCount;
+                playerCounts.sandbox += playerCount
+            })
+            stats.normal.forEach(server => {
+                let games = server.games[0]
+
+                let playerCount = games.playerCount;
+                playerCounts.normal += playerCount
+            })
+            stats.dev.forEach(server => {
+                let games = server.games[0]
+
+                let playerCount = games.playerCount;
+                playerCounts.dev += playerCount
+            })
+            let totaldev = stats.dev.length;
+            let totalsandbox = stats.sandbox.length
+            let totalnormal = stats.normal.length
+            let total = totaldev + totalsandbox + totalnormal;
+
+            await interaction.editReply({
+                embeds: [{
+                    title: "Total Server Stats",
+                    description: "Information about all MooMoo.io servers",
+                    fields: [
+                        {
+                            name: "Overall MooMoo Stats",
+                            value: "---"
+                        },
+                        {
+                            name: "Server Stats",
+                            value: `Total servers: ${total} \n \n sandbox.moomoo.io: **${totalsandbox} Servers** \n dev.moomoo.io: **${totaldev} Servers** \n moomoo.io: **${totalnormal} Servers**`
+                        },
+                        {
+                            name: "Player Stats",
+                            value: `Total players: ${playerCounts.all} \n Average Players per server: ${Math.round(playerCounts.all / total)} \n sandbox: **${playerCounts.sandbox} Players** \n normal: **${playerCounts.normal} Players** \n dev: **${playerCounts.dev} Players**`,
+                        }
+                    ]
+                }]
+            })
+        } else if (type && !region && !index) {
+            let stats = await serverstats(type)
+            let playerCount = 0;
+
+            stats.forEach(server => {
+                let games = server.games[0]
+
+                playerCount += games.playerCount
+            })
+            await interaction.editReply({
+                embeds: [{
+                    title: `${type} statistics`,
+                    description: `gives information about ${type} servers.`,
+                    fields: [
+                        {
+                            name: "Total Players",
+                            value: `${playerCount} Players`,
+                            inline: true
+                        }, 
+                        {
+                            name: "Total Servers",
+                            value: `${stats.length} Servers`,
+                            inline: true
+                        },
+                        {
+                            name: "Average Players per server",
+                            value: `${Math.round(playerCount / stats.length)} Players per server`,
+                            inline: true
+                        }
+                    ]
+                }]
+            })
+        } else if (type && region && !index) {
+            // region stats
+        } else if (type && region && index) {
+            // server stats
+        } else {
+            await interaction.editReply({
+                embeds: [{
+                    title: "Error",
+                    description: "Make sure you used the command correctly."
+                }]
+            })
+        }
+
+
     }
 }
 
