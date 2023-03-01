@@ -170,6 +170,9 @@ class RegionInfoCommand extends Command {
                 .map(server => {
                     let playerCount = server.games[0].playerCount;
                     return `${server.region.split("vultr:")[1]}:${server.index}:0 - ${playerCount}/50 players`;
+                }).filter(server => {
+                    let playerCount = parseInt(server.split(" - ")[1]);
+                    return playerCount > 0;
                 })
                 .sort((a, b) => {
                     let playerCountA = parseInt(a.split(" - ")[1]);
@@ -177,8 +180,6 @@ class RegionInfoCommand extends Command {
                     return playerCountB - playerCountA;
                 })
                 .join("\n");
-
-            console.log(formattedServers);
 
             await interaction.editReply({
                 embeds: [{
@@ -209,7 +210,9 @@ class RegionInfoCommand extends Command {
             })
         } else if (type && region && index) {
             let server = await serverstats(type, region, index);
-
+            if (!server) {
+                return await interaction.editReply("Server not found or API error.")
+            }
             let embed = {
                 title: `Server Statistics (${type} - ${server.region.split("vultr:")[1]}:${server.index}:0)`,
                 description: "[Need help, found a bug or want more features? Click here.](https://discord.gg/NMS3YR9Q5R)",
